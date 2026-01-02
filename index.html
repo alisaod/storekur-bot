@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر كوردستان للأغذية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #FFFFFF;
+            color: #222222;
+            direction: rtl;
+            overflow-x: hidden;
+        }
+
+        /* شريط علوي ثابت */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(135deg, #10ac84 0%, #0e9770 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(16, 172, 132, 0.3);
+        }
+
+        .header h1 {
+            color: #FFFFFF;
+            font-size: 22px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content {
+            margin-top: 80px;
+            padding: 20px;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* عنوان القسم */
+        .section-title {
+            text-align: center;
+            color: #10ac84;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        /* شبكة المنتجات */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* بطاقة المنتج */
+        .product-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            background: #FFFFFF;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(16, 172, 132, 0.2);
+        }
+
+        .product-card:active {
+            transform: translateY(-2px);
+        }
+
+        /* صورة المنتج */
+        .product-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid #10ac84;
+            object-fit: cover;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 8px rgba(16, 172, 132, 0.2);
+        }
+
+        /* اسم المنتج */
+        .product-name {
+            text-align: center;
+            color: #222222;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-top: 8px;
+        }
+
+        /* سعر المنتج الصغير */
+        .product-price-small {
+            color: #10ac84;
+            font-size: 14px;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        /* نافذة التفاصيل المنبثقة */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* محتوى النافذة */
+        .modal-content {
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 90%;
+            width: 400px;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        /* زر الإغلاق */
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 35px;
+            height: 35px;
+            background: #f5f5f5;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            color: #555555;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            background: #10ac84;
+            color: #FFFFFF;
+            transform: rotate(90deg);
+        }
+
+        /* صورة المنتج في النافذة */
+        .modal-product-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 4px solid #10ac84;
+            margin: 0 auto 20px;
+            display: block;
+            box-shadow: 0 6px 16px rgba(16, 172, 132, 0.3);
+        }
+
+        /* اسم المنتج في النافذة */
+        .modal-product-name {
+            text-align: center;
+            color: #222222;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        /* سعر المنتج في النافذة */
+        .modal-product-price {
+            text-align: center;
+            color: #10ac84;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: #e0f7f4;
+            padding: 10px;
+            border-radius: 12px;
+        }
+
+        /* وصف المنتج */
+        .modal-product-description {
+            text-align: center;
+            color: #555555;
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+
+        /* زر المراسلة */
+        .contact-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #10ac84 0%, #0e9770 100%);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(16, 172, 132, 0.3);
+            font-family: 'Tajawal', sans-serif;
+            min-height: 48px;
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(16, 172, 132, 0.4);
+        }
+
+        .contact-btn:active {
+            transform: translateY(0);
+        }
+
+        /* تحسينات للشاشات الصغيرة */
+        @media (max-width: 400px) {
+            .products-grid {
+                gap: 15px;
+            }
+
+            .product-card {
+                padding: 10px;
+            }
+
+            .product-image {
+                width: 100px;
+                height: 100px;
+            }
+
+            .product-name {
+                font-size: 14px;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+
+            .modal-product-image {
+                width: 150px;
+                height: 150px;
+            }
+
+            .modal-product-name {
+                font-size: 19px;
+            }
+
+            .modal-product-price {
+                font-size: 20px;
+            }
+
+            .modal-product-description {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .header h1 {
+                font-size: 18px;
+            }
+
+            .products-grid {
+                gap: 12px;
+            }
+
+            .product-image {
+                width: 90px;
+                height: 90px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- شريط علوي ثابت -->
+    <div class="header">
+        <h1>🛒 متجر كوردستان للأغذية 🍼</h1>
+    </div>
+
+    <!-- المحتوى الرئيسي -->
+    <div class="main-content">
+        <h2 class="section-title">منتجاتنا المميزة للأطفال</h2>
+
+        <!-- شبكة المنتجات -->
+        <div class="products-grid">
+            <!-- منتج 1 -->
+            <div class="product-card" onclick="openModal(0)">
+                <img src="https://via.placeholder.com/120/10ac84/FFFFFF?text=حليب" alt="حليب أطفال" class="product-image">
+                <div class="product-name">حليب أطفال عضوي تركي</div>
+                <div class="product-price-small">25,000 د.ع</div>
+            </div>
+
+            <!-- منتج 2 -->
+            <div class="product-card" onclick="openModal(1)">
+                <img src="https://via.placeholder.com/120/10ac84/FFFFFF?text=معجون" alt="معجون فواكه" class="product-image">
+                <div class="product-name">معجون فواكه طبيعي</div>
+                <div class="product-price-small">18,000 د.ع</div>
+            </div>
+
+            <!-- منتج 3 -->
+            <div class="product-card" onclick="openModal(2)">
+                <img src="https://via.placeholder.com/120/10ac84/FFFFFF?text=بسكويت" alt="بسكويت أرز" class="product-image">
+                <div class="product-name">بسكويت أرز خالٍ من السكر</div>
+                <div class="product-price-small">12,000 د.ع</div>
+            </div>
+
+            <!-- منتج 4 -->
+            <div class="product-card" onclick="openModal(3)">
+                <img src="https://via.placeholder.com/120/10ac84/FFFFFF?text=عصير" alt="عصير تفاح" class="product-image">
+                <div class="product-name">عصير تفاح عضوي</div>
+                <div class="product-price-small">10,000 د.ع</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة التفاصيل المنبثقة -->
+    <div class="modal" id="productModal" onclick="closeModalOnBackground(event)">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">×</button>
+            <img id="modalImage" src="" alt="Product" class="modal-product-image">
+            <h3 id="modalName" class="modal-product-name"></h3>
+            <div id="modalPrice" class="modal-product-price"></div>
+            <p id="modalDescription" class="modal-product-description"></p>
+            <button class="contact-btn" onclick="contactSeller()">
+                💬 مراسلتي الآن
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // بيانات المنتجات
+        const products = [
+            {
+                name: 'حليب أطفال عضوي تركي',
+                price: '25,000 د.ع',
+                image: 'https://via.placeholder.com/180/10ac84/FFFFFF?text=حليب+أطفال',
+                description: 'حليب أطفال عضوي مستورد من تركيا، غني بالفيتامينات والمعادن الضرورية لنمو صحي وسليم لطفلك. مناسب من عمر 6 أشهر فما فوق.'
+            },
+            {
+                name: 'معجون فواكه طبيعي',
+                price: '18,000 د.ع',
+                image: 'https://via.placeholder.com/180/10ac84/FFFFFF?text=معجون+فواكه',
+                description: 'معجون فواكه طبيعي 100% بدون سكر مضاف أو مواد حافظة. يحتوي على التفاح والموز والكمثرى لطعم لذيذ ومغذي يحبه الأطفال.'
+            },
+            {
+                name: 'بسكويت أرز خالٍ من السكر',
+                price: '12,000 د.ع',
+                image: 'https://via.placeholder.com/180/10ac84/FFFFFF?text=بسكويت+أرز',
+                description: 'بسكويت أرز هش وخفيف، خالٍ من السكر والغلوتين. مثالي للأطفال الذين بدأوا مرحلة التسنين، سهل الهضم وآمن تماماً.'
+            },
+            {
+                name: 'عصير تفاح عضوي',
+                price: '10,000 د.ع',
+                image: 'https://via.placeholder.com/180/10ac84/FFFFFF?text=عصير+تفاح',
+                description: 'عصير تفاح طبيعي 100% من تفاح عضوي مختار، بدون سكر أو ألوان صناعية. منعش ومغذي وغني بفيتامين C لتقوية مناعة طفلك.'
+            }
+        ];
+
+        // فتح نافذة التفاصيل
+        function openModal(index) {
+            const product = products[index];
+            const modal = document.getElementById('productModal');
+            
+            document.getElementById('modalImage').src = product.image;
+            document.getElementById('modalName').textContent = product.name;
+            document.getElementById('modalPrice').textContent = product.price;
+            document.getElementById('modalDescription').textContent = product.description;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // إغلاق نافذة التفاصيل
+        function closeModal() {
+            const modal = document.getElementById('productModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // إغلاق النافذة عند النقر على الخلفية
+        function closeModalOnBackground(event) {
+            if (event.target.id === 'productModal') {
+                closeModal();
+            }
+        }
+
+        // فتح محادثة مع البائع
+        function contactSeller() {
+            window.open('https://t.me/kur_med', '_blank');
+        }
+
+        // إغلاق النافذة عند الضغط على مفتاح ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // منع التمرير عند فتح النافذة
+        window.addEventListener('load', function() {
+            // التحقق من أن التطبيق يعمل داخل Telegram
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
+                window.Telegram.WebApp.expand();
+            }
+        });
+    </script>
+</body>
+</html>
