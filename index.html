@@ -168,6 +168,8 @@
             border-bottom: 2px solid #ffd700;
             scrollbar-width: none;
             box-shadow: 0 2px 8px rgba(255, 215, 0, 0.15);
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         .categories::-webkit-scrollbar {
@@ -251,12 +253,14 @@
             height: clamp(80px, 25vw, 100px);
             border-radius: 50%;
             border: 3px solid transparent;
-            background: linear-gradient(white, white) padding-box,
-                linear-gradient(135deg, #ffd700, #ffc107, #ff9800) border-box;
+            background:
+                radial-gradient(circle, white 0%, white 100%) padding-box,
+                radial-gradient(circle at center, #ffd700 0%, #ffc107 50%, #ff9800 100%) border-box;
             overflow: hidden;
             margin-bottom: 6px;
             box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
         }
 
         .product-card:hover .product-image-wrapper {
@@ -310,6 +314,42 @@
             font-size: 10px;
             font-weight: 700;
             box-shadow: 0 2px 8px rgba(255, 215, 0, 0.5);
+            z-index: 2;
+        }
+
+        .special-offer-badge {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(255, 107, 107, 0.5);
+            z-index: 2;
+        }
+
+        .out-of-stock-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            z-index: 3;
+        }
+
+        .out-of-stock-badge {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 11px;
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.5);
         }
 
         /* النافذة المنبثقة */
@@ -498,6 +538,28 @@
             margin-bottom: 20px;
         }
 
+        .special-offer-section {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+        }
+
+        .special-offer-label {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 4px;
+        }
+
+        .special-offer-text {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
         .contact-btn {
             width: 100%;
             padding: 16px;
@@ -512,6 +574,13 @@
             transition: all 0.3s;
             box-shadow: 0 6px 15px rgba(255, 215, 0, 0.4);
             letter-spacing: 0.5px;
+        }
+
+        .contact-btn:disabled {
+            background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+            color: #adb5bd;
+            cursor: not-allowed;
+            opacity: 0.6;
         }
 
         .contact-btn:hover {
@@ -886,7 +955,9 @@
                 isNew: true,
                 addedDate: new Date().toISOString(),
                 expiryDate: "2027-06-15",
-                country: "🇩🇪"
+                country: "🇩🇪",
+                specialOffer: null,
+                outOfStock: false
             },
             {
                 id: 2,
@@ -898,7 +969,9 @@
                 isNew: false,
                 addedDate: "2026-01-01T00:00:00.000Z",
                 expiryDate: "2026-12-31",
-                country: "🇺🇸"
+                country: "🇺🇸",
+                specialOffer: "خصم 20% - عرض لمدة محدودة",
+                outOfStock: false
             },
             {
                 id: 3,
@@ -910,7 +983,9 @@
                 isNew: false,
                 addedDate: "2025-12-28T00:00:00.000Z",
                 expiryDate: "2027-03-20",
-                country: "🇬🇧"
+                country: "🇬🇧",
+                specialOffer: null,
+                outOfStock: true
             },
             {
                 id: 4,
@@ -922,7 +997,9 @@
                 isNew: false,
                 addedDate: "2025-12-25T00:00:00.000Z",
                 expiryDate: "2026-08-10",
-                country: "🇫🇷"
+                country: "🇫🇷",
+                specialOffer: null,
+                outOfStock: false
             },
             {
                 id: 5,
@@ -934,7 +1011,9 @@
                 isNew: true,
                 addedDate: new Date().toISOString(),
                 expiryDate: "2028-01-15",
-                country: "🇯🇵"
+                country: "🇯🇵",
+                specialOffer: "وفر 1000 دينار عند شراء عبوتين",
+                outOfStock: false
             },
             {
                 id: 6,
@@ -946,7 +1025,9 @@
                 isNew: false,
                 addedDate: "2025-12-20T00:00:00.000Z",
                 expiryDate: "2027-05-30",
-                country: "🇮🇹"
+                country: "🇮🇹",
+                specialOffer: null,
+                outOfStock: false
             },
             {
                 id: 7,
@@ -958,7 +1039,9 @@
                 isNew: true,
                 addedDate: new Date().toISOString(),
                 expiryDate: "2026-11-25",
-                country: "🇨🇭"
+                country: "🇨🇭",
+                specialOffer: null,
+                outOfStock: false
             },
             {
                 id: 8,
@@ -970,7 +1053,9 @@
                 isNew: false,
                 addedDate: "2025-12-15T00:00:00.000Z",
                 expiryDate: "2027-02-28",
-                country: "🇳🇴"
+                country: "🇳🇴",
+                specialOffer: null,
+                outOfStock: false
             },
             {
                 id: 9,
@@ -982,13 +1067,17 @@
                 isNew: false,
                 addedDate: "2025-12-10T00:00:00.000Z",
                 expiryDate: "2026-09-18",
-                country: "🇩🇪"
+                country: "🇩🇪",
+                specialOffer: null,
+                outOfStock: false
             }
         ];
 
         let currentCategory = 'all';
         let currentSlideIndex = 0;
         let currentProduct = null;
+        let lastClickedCategory = null;
+        let lastClickTime = 0;
 
         // تحميل المنتجات عند فتح الصفحة
         document.addEventListener('DOMContentLoaded', function () {
@@ -1024,7 +1113,9 @@
                 card.innerHTML = `
                     <div class="product-image-wrapper" style="position: relative;">
                         ${isNew ? '<div class="new-badge">جديد</div>' : ''}
+                        ${product.specialOffer ? '<div class="special-offer-badge">عرض خاص</div>' : ''}
                         <img src="${product.images[0]}" alt="${product.name}" class="product-image">
+                        ${product.outOfStock ? '<div class="out-of-stock-overlay"><div class="out-of-stock-badge">نفذت الكمية</div></div>' : ''}
                     </div>
                     <div class="product-name">${product.name}</div>
                     <div class="product-expiry">📅 ${product.expiryDate || 'غير محدد'}</div>
@@ -1059,10 +1150,26 @@
             const buttons = document.querySelectorAll('.category-btn');
             buttons.forEach(btn => {
                 btn.addEventListener('click', function () {
-                    buttons.forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    currentCategory = this.dataset.category;
-                    displayProducts();
+                    const category = this.dataset.category;
+                    const currentTime = Date.now();
+
+                    // التحقق من النقر المزدوج
+                    if (lastClickedCategory === category && (currentTime - lastClickTime) < 500) {
+                        // إلغاء الفلترة وعرض جميع المنتجات
+                        buttons.forEach(b => b.classList.remove('active'));
+                        currentCategory = 'all';
+                        displayProducts();
+                        lastClickedCategory = null;
+                        lastClickTime = 0;
+                    } else {
+                        // فلترة عادية
+                        buttons.forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        currentCategory = category;
+                        displayProducts();
+                        lastClickedCategory = category;
+                        lastClickTime = currentTime;
+                    }
                 });
             });
         }
@@ -1117,7 +1224,30 @@
 
             document.getElementById('productPrice').textContent = `${product.price.toLocaleString()} د.ع`;
             document.getElementById('productPrice').insertAdjacentHTML('afterend', metaHtml);
+
+            // إضافة قسم العرض الخاص إن وجد
+            if (product.specialOffer) {
+                const offerHtml = `
+                    <div class="special-offer-section">
+                        <div class="special-offer-label">🎁 عرض خاص</div>
+                        <div class="special-offer-text">${product.specialOffer}</div>
+                    </div>
+                `;
+                const metaElement = document.querySelector('.product-meta');
+                metaElement.insertAdjacentHTML('afterend', offerHtml);
+            }
+
             document.getElementById('productDescription').textContent = product.description;
+
+            // تعطيل زر الشراء للمنتجات النافذة
+            const contactBtn = document.querySelector('#productModal .contact-btn');
+            if (product.outOfStock) {
+                contactBtn.disabled = true;
+                contactBtn.textContent = '❌ نفذت الكمية';
+            } else {
+                contactBtn.disabled = false;
+                contactBtn.textContent = '💬 مراسلتي الآن';
+            }
 
             // إعداد السلايدر
             const sliderImages = document.getElementById('sliderImages');
