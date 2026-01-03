@@ -23,17 +23,84 @@
 
         /* الشريط العلوي */
         .header {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
+            background-size: 200% 200%;
             color: #ffd700;
-            padding: 15px 10px;
+            padding: 20px 10px 25px 10px;
             text-align: center;
             font-size: clamp(18px, 5vw, 24px);
             font-weight: 800;
-            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
+            box-shadow:
+                0 4px 20px rgba(255, 215, 0, 0.4),
+                0 8px 40px rgba(255, 193, 7, 0.2),
+                0 0 60px rgba(255, 215, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 100;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            clip-path: ellipse(100% 100% at 50% 0%);
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+            animation: gradientShift 8s ease infinite;
+            text-shadow:
+                0 0 10px rgba(255, 215, 0, 0.5),
+                0 0 20px rgba(255, 193, 7, 0.3),
+                0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg,
+                    rgba(255, 215, 0, 0.1) 0%,
+                    transparent 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    #ffd700 20%,
+                    #ffc107 50%,
+                    #ffd700 80%,
+                    transparent 100%);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+
+            0%,
+            100% {
+                opacity: 0.5;
+                transform: translateX(-100%);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateX(100%);
+            }
         }
 
         /* شريط البحث وجهات الاتصال */
