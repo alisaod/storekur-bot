@@ -7,6 +7,7 @@
     <title>سوق كوردستان الدوائي</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap"
         rel="stylesheet">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
             /* Pharmacy Dark Theme */
@@ -102,6 +103,9 @@
             position: relative;
             max-width: 600px;
             margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .search-input {
@@ -131,6 +135,28 @@
             pointer-events: none;
         }
 
+        .contact-icon {
+            width: 44px;
+            height: 44px;
+            background: rgba(34, 211, 238, 0.1);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--primary);
+            font-size: 20px;
+            transition: 0.3s;
+            flex-shrink: 0;
+        }
+
+        .contact-icon:active {
+            transform: scale(0.95);
+            background: var(--primary);
+            color: #0f172a;
+        }
+
         /* Categories Bar */
         .categories-wrapper {
             padding: 0 20px 20px;
@@ -147,7 +173,7 @@
         .cat-item {
             padding: 12px 10px;
             background: rgba(30, 41, 59, 0.5);
-            border: 1px solid #334155;
+            /* border: 1px solid #334155; Removed border for fluidity */
             border-radius: 16px;
             color: var(--text-sub);
             font-size: 11px;
@@ -215,24 +241,27 @@
 
         /* Products Grid */
         .products-container {
-            padding: 0 20px;
+            padding: 0 10px;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
             max-width: 800px;
             margin: 0 auto;
         }
 
         .product-card {
             background: var(--bg-card);
-            border-radius: 18px;
-            padding: 10px;
+            border-radius: 12px;
+            padding: 8px;
             position: relative;
             transition: all 0.4s ease;
             border: 1px solid rgba(255, 255, 255, 0.05);
             animation: fadeIn 0.6s ease-out backwards;
             cursor: pointer;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
         }
 
         /* Neon Glow Effect */
@@ -250,6 +279,7 @@
             padding: 1px;
             background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
             pointer-events: none;
@@ -297,26 +327,29 @@
         }
 
         .p-name {
-            font-size: 15px;
+            font-size: 13px;
             font-weight: 700;
             color: #fff;
-            margin-bottom: 8px;
-            line-height: 1.4;
+            margin-bottom: 6px;
+            line-height: 1.3;
             display: -webkit-box;
             -webkit-line-clamp: 2;
+            line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            height: 42px;
+            height: 34px;
         }
 
         .p-meta {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            font-size: 12px;
+            flex-wrap: wrap;
+            gap: 5px;
+            font-size: 11px;
             color: var(--text-sub);
             border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding-top: 8px;
+            padding-top: 6px;
         }
 
         .flag-icon {
@@ -388,22 +421,116 @@
             margin-top: 10px;
             cursor: pointer;
         }
+
+        /* Admin Styles */
+        .admin-view {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .admin-form {
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            color: var(--text-sub);
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid #334155;
+            border-radius: 10px;
+            color: #fff;
+            font-family: inherit;
+        }
+
+        .form-textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .image-preview {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            margin-top: 10px;
+            padding-bottom: 5px;
+        }
+
+        .preview-thumb {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid var(--primary);
+        }
+
+        .admin-btn {
+            background: var(--primary);
+            color: #0f172a;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .toggle-admin {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            font-size: 20px;
+        }
     </style>
 </head>
 
 <body>
 
+    <!-- Header Removed by User Request -->
+    <!-- 
     <header class="market-header">
-        <h1 class="title">سوق كوردستان الدوائي</h1>
-        <div class="subtitle">صحة • أمان • ثقة</div>
-    </header>
+        ...
+    </header> 
+    -->
 
     <!-- Search Bar -->
     <div class="search-container">
         <div class="search-box">
-            <span class="search-icon">🔍</span>
-            <input type="text" class="search-input" placeholder="ابحث عن دواء، فيتامين..."
-                oninput="filterSearch(this.value)">
+            <div style="position:relative; flex:1;">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" placeholder="ابحث عن دواء، فيتامين..."
+                    oninput="filterSearch(this.value)">
+            </div>
+            <!-- Contact Icon -->
+            <div class="contact-icon" onclick="openContactModal()">
+                📞
+            </div>
         </div>
     </div>
 
@@ -435,7 +562,69 @@
 
             <button class="order-btn" onclick="contact()">طلب الاستفسار</button>
         </div>
+        <button class="order-btn" onclick="contact()">طلب الاستفسار</button>
     </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal" onclick="if(event.target===this) closeContactModal()">
+        <div class="modal-content" style="text-align:center;">
+            <span style="position:absolute; left:15px; top:15px; color:#fff; font-size:20px; cursor:pointer;"
+                onclick="closeContactModal()">✕</span>
+            <div
+                style="width:80px; height:80px; background:rgba(34,211,238,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 15px; color:var(--primary); font-size:32px;">
+                📞</div>
+            <h3 style="color:#fff; margin-bottom:10px;">تواصل معنا</h3>
+            <p style="color:var(--text-sub); font-size:14px; margin-bottom:20px;">يمكنك التواصل معنا مباشرة عبر تيليجرام
+                للاستفسار والطلب</p>
+            <button class="order-btn" onclick="contact()">تحويل للتيليجرام</button>
+        </div>
+    </div>
+
+    <!-- Admin View -->
+    <div id="adminView" class="admin-view">
+        <h2 class="title" style="margin-bottom:20px;">لوحة التحكم</h2>
+
+        <div class="admin-form">
+            <h3 style="color:#fff; margin-bottom:15px; font-size:16px;">إضافة منتج جديد</h3>
+
+            <div class="form-group">
+                <label class="form-label">اسم المنتج</label>
+                <input type="text" id="pName" class="form-input" placeholder="مثال: فيتامين C">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">الوصف</label>
+                <textarea id="pDesc" class="form-textarea" placeholder="اكتب وصفاً مفصلاً للمنتج..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">السعر</label>
+                <input type="text" id="pPrice" class="form-input" placeholder="مثال: 5,000">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">الصور (يمكن اختيار اكثر من صورة)</label>
+                <input type="file" id="pImages" class="form-input" multiple accept="image/*"
+                    onchange="previewImages(this)">
+                <div id="imagePreview" class="image-preview"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">الحالة</label>
+                <select id="pStatus" class="form-select">
+                    <option value="available">متوفر</option>
+                    <option value="limited">كمية محدودة</option>
+                    <option value="out_of_stock">نافذ</option>
+                </select>
+            </div>
+
+            <button class="admin-btn" onclick="addNewProduct()">إضافة المنتج</button>
+        </div>
+    </div>
+
+    <!-- Admin Toggle Btn -->
+    <div class="toggle-admin" onclick="toggleAdmin()">⚙️</div>
 
     <script>
         // Data
@@ -448,16 +637,23 @@
             { id: 'general', name: 'عامة', color: '#6b7280', icon: '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>' }
         ];
 
+        // Helper to get date N days ago for demo purposes
+        function getDateDaysAgo(days) {
+            const d = new Date();
+            d.setDate(d.getDate() - days);
+            return d.toISOString().split('T')[0];
+        }
+
         const products = [
-            { id: 1, name: 'فيتامين C فوار (Immune)', origin: 'المانيا 🇩🇪', exp: '2026/05', cat: 'supplements', isNew: true, img: 'https://via.placeholder.com/200/1e293b/22d3ee?text=Vit+C' },
-            { id: 2, name: 'أوميغا 3 بلس (Omega)', origin: 'أمريكا 🇺🇸', exp: '2025/12', cat: 'supplements', isOffer: true, oldPrice: '25,000', price: '20,000', img: 'https://via.placeholder.com/200/1e293b/f472b6?text=Omega' },
-            { id: 3, name: 'بنادول إكسترا (Panadol)', origin: 'إيرلندا 🇮🇪', exp: '2027/01', cat: 'medicines', isNew: true, img: 'https://via.placeholder.com/200/1e293b/a855f7?text=Panadol' },
-            { id: 4, name: 'شرائط قياس سكر', origin: 'كوريا 🇰🇷', exp: '2025/08', cat: 'supplies', isOffer: true, img: 'https://via.placeholder.com/200/1e293b/34d399?text=Test' },
-            { id: 5, name: 'سيروم فيتامين E', origin: 'فرنسا 🇫🇷', exp: '2026/02', cat: 'general', img: 'https://via.placeholder.com/200/1e293b/fbbf24?text=Vit+E' },
-            { id: 6, name: 'كولاجين بلس', origin: 'اليابان 🇯🇵', exp: '2026/09', cat: 'supplements', isNew: true, img: 'https://via.placeholder.com/200/1e293b/e879f9?text=Collagen' },
-            { id: 7, name: 'جهاز ضغط رقمي', origin: 'ألمانيا 🇩🇪', exp: '2030', cat: 'supplies', isOffer: true, img: 'https://via.placeholder.com/200/1e293b/60a5fa?text=Pressure' },
-            { id: 8, name: 'مرطب شفاه', origin: 'الامارات 🇦🇪', exp: '2025/12', cat: 'general', img: 'https://via.placeholder.com/200/1e293b/fca5a5?text=LipBalm' },
-            { id: 9, name: 'اسبرين 81', origin: 'أمريكا 🇺🇸', exp: '2026/04', cat: 'medicines', img: 'https://via.placeholder.com/200/1e293b/93c5fd?text=Aspirin' }
+            { id: 1, name: 'فيتامين C فوار (Immune)', origin: 'المانيا 🇩🇪', exp: '2026/05', cat: 'supplements', dateAdded: getDateDaysAgo(1), images: ['https://via.placeholder.com/200/1e293b/22d3ee?text=Vit+C'], description: 'فوار فيتامين سي لتعزيز المناعة.', status: 'available', price: '5,000' },
+            { id: 2, name: 'أوميغا 3 بلس (Omega)', origin: 'أمريكا 🇺🇸', exp: '2025/12', cat: 'supplements', isOffer: true, oldPrice: '25,000', price: '20,000', dateAdded: getDateDaysAgo(10), images: ['https://via.placeholder.com/200/1e293b/f472b6?text=Omega'], description: 'زيت السمك غني بالأوميغا 3.', status: 'available' },
+            { id: 3, name: 'بنادول إكسترا (Panadol)', origin: 'إيرلندا 🇮🇪', exp: '2027/01', cat: 'medicines', dateAdded: getDateDaysAgo(2), images: ['https://via.placeholder.com/200/1e293b/a855f7?text=Panadol'], description: 'بنادول مسكن للألم وخافض للحرارة.', status: 'limited', price: '3,000' },
+            { id: 4, name: 'شرائط قياس سكر', origin: 'كوريا 🇰🇷', exp: '2025/08', cat: 'supplies', isOffer: true, dateAdded: getDateDaysAgo(5), images: ['https://via.placeholder.com/200/1e293b/34d399?text=Test'], description: 'شرائط اختبار دقيقة لقياس السكر.', status: 'available', price: '15,000' },
+            { id: 5, name: 'سيروم فيتامين E', origin: 'فرنسا 🇫🇷', exp: '2026/02', cat: 'general', dateAdded: getDateDaysAgo(20), images: ['https://via.placeholder.com/200/1e293b/fbbf24?text=Vit+E'], description: 'سيروم للبشرة والشعر.', status: 'out_of_stock', price: '12,000' },
+            { id: 6, name: 'كولاجين بلس', origin: 'اليابان 🇯🇵', exp: '2026/09', cat: 'supplements', dateAdded: getDateDaysAgo(0), images: ['https://via.placeholder.com/200/1e293b/e879f9?text=Collagen'], description: 'كولاجين بحري للبشرة والمفاصل.', status: 'available', price: '35,000' },
+            { id: 7, name: 'جهاز ضغط رقمي', origin: 'ألمانيا 🇩🇪', exp: '2030', cat: 'supplies', isOffer: true, dateAdded: getDateDaysAgo(30), images: ['https://via.placeholder.com/200/1e293b/60a5fa?text=Pressure'], description: 'جهاز دقيق لقياس ضغط الدم.', status: 'limited', price: '45,000' },
+            { id: 8, name: 'مرطب شفاه', origin: 'الامارات 🇦🇪', exp: '2025/12', cat: 'general', dateAdded: getDateDaysAgo(4), images: ['https://via.placeholder.com/200/1e293b/fca5a5?text=LipBalm'], description: 'مرطب شفاه بنكهة الفراولة.', status: 'available', price: '2,000' },
+            { id: 9, name: 'اسبرين 81', origin: 'أمريكا 🇺🇸', exp: '2026/04', cat: 'medicines', dateAdded: getDateDaysAgo(60), images: ['https://via.placeholder.com/200/1e293b/93c5fd?text=Aspirin'], description: 'اسبرين لحماية القلب.', status: 'available', price: '4,000' }
         ];
 
 
@@ -465,6 +661,12 @@
         let currentFilter = 'all';
 
         function init() {
+            // Telegram Web App Initialization
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.ready();
+                window.Telegram.WebApp.expand();
+            }
+
             // Render Categories
             const catWrapper = document.getElementById('catWrapper');
             categories.forEach(c => {
@@ -494,8 +696,9 @@
             }
 
             // Otherwise, render Stacked Sections
-            // 1. New Arrivals
-            const newItems = products.filter(p => p.isNew);
+
+            // 1. New Arrivals (Last 72 Hours)
+            const newItems = products.filter(p => isRecent(p.dateAdded));
             if (newItems.length) renderSection('حديثاً', newItems);
 
             // 2. Offers
@@ -503,16 +706,19 @@
             if (offerItems.length) renderSection('عروض وتخفيضات', offerItems, true);
 
             // 3. Supplements (Example of specific category section)
-            const suppItems = products.filter(p => p.cat === 'supplements');
+            const suppItems = products.filter(p => p.cat === 'supplements' && !isRecent(p.dateAdded));
             if (suppItems.length) renderSection('مكملات غذائية', suppItems);
 
             // 4. Medicines
-            const medItems = products.filter(p => p.cat === 'medicines');
+            const medItems = products.filter(p => p.cat === 'medicines' && !isRecent(p.dateAdded));
             if (medItems.length) renderSection('أدوية طبية', medItems);
 
-            // 5. General / Remaining (just minimal example)
-            const otherItems = products.filter(p => !p.isNew && !p.isOffer && p.cat !== 'supplements' && p.cat !== 'medicines');
-            if (otherItems.length) renderSection('منتجات أخرى', otherItems);
+            // 5. General / Remaining 
+            const suppliesItems = products.filter(p => p.cat === 'supplies' && !isRecent(p.dateAdded));
+            if (suppliesItems.length) renderSection('مستلزمات', suppliesItems);
+
+            const generalItems = products.filter(p => p.cat === 'general' && !isRecent(p.dateAdded));
+            if (generalItems.length) renderSection('عامة', generalItems);
         }
 
         function renderSection(title, items, isHorizontal = false) {
@@ -549,17 +755,30 @@
             if (index < 10) card.style.animationDelay = (index * 0.05) + 's';
             card.onclick = () => openModal(p);
 
+            // Status Badges
+            let statusBadge = '';
+            if (p.status === 'out_of_stock') {
+                statusBadge = '<div style="position:absolute; top:8px; right:8px; background:#ef4444; color:#fff; font-size:10px; padding:3px 8px; border-radius:8px; z-index:2;">نافذ</div>';
+                card.style.opacity = '0.7';
+            } else if (p.status === 'limited') {
+                statusBadge = '<div style="position:absolute; top:8px; right:8px; background:#f97316; color:#fff; font-size:10px; padding:3px 8px; border-radius:8px; z-index:2;">كمية محدودة</div>';
+            } else if (p.isOffer) {
+                statusBadge = '<div style="position:absolute; top:8px; right:8px; background:#f43f5e; color:#fff; font-size:10px; padding:3px 8px; border-radius:8px; z-index:2;">عرض</div>';
+            }
+
+            const mainImg = p.images && p.images.length > 0 ? p.images[0] : p.img;
+
             card.innerHTML = `
                 <div class="expiry-tag">📅 ${p.exp}</div>
-                ${p.isOffer ? '<div style="position:absolute; top:8px; right:8px; background:#f43f5e; color:#fff; font-size:10px; padding:3px 8px; border-radius:8px; z-index:2;">عرض</div>' : ''}
+                ${statusBadge}
                 <div class="img-container">
-                    <img src="${p.img}" class="product-img" loading="lazy">
+                    <img src="${mainImg}" class="product-img" loading="lazy">
                 </div>
                 <div class="p-info">
                     <div class="p-name">${p.name}</div>
                     <div class="p-meta">
                         <span class="origin-text">${p.origin}</span>
-                        ${p.oldPrice ? `<span style="text-decoration:line-through; opacity:0.6; margin-right:auto; font-size:11px;">${p.oldPrice}</span> <span style="color:var(--primary); font-weight:bold;">${p.price}</span>` : ''}
+                        ${p.oldPrice ? `<span style="text-decoration:line-through; opacity:0.6; margin-right:auto; font-size:11px;">${p.oldPrice}</span> <span style="color:var(--primary); font-weight:bold;">${p.price}</span>` : `<span style="color:var(--primary); font-weight:bold; margin-right:auto;">${p.price || ''}</span>`}
                     </div>
                 </div>
             `;
@@ -588,15 +807,26 @@
             }
         }
 
+        function isRecent(dateStr) {
+            if (!dateStr) return false;
+            const added = new Date(dateStr);
+            const now = new Date();
+            const diffTime = Math.abs(now - added);
+            const diffHours = Math.ceil(diffTime / (1000 * 60 * 60));
+            return diffHours <= 72;
+        }
+
+
+
         function filterSearch(query) {
             const term = normalizeText(query);
             const filtered = products.filter(p => {
                 const matchesCat = currentFilter === 'all' ||
-                    (currentFilter === 'new' ? p.isNew :
+                    (currentFilter === 'new' ? isRecent(p.dateAdded) :
                         (currentFilter === 'offers' ? p.isOffer :
                             p.cat === currentFilter));
 
-                const matchesSearch = normalizeText(p.name).includes(term);
+                const matchesSearch = normalizeText(p.name).includes(term) || (p.description && normalizeText(p.description).includes(term));
                 return matchesCat && matchesSearch;
             });
             renderProducts(filtered, true); // true = isSearch mode (renders grid)
@@ -612,8 +842,10 @@
         }
 
         function openModal(p) {
-            document.getElementById('mImg').src = p.img;
+            const mainImg = p.images && p.images.length > 0 ? p.images[0] : p.img;
+            document.getElementById('mImg').src = mainImg;
             document.getElementById('mName').textContent = p.name;
+            document.getElementById('mDesc').textContent = p.description || 'لا يوجد وصف متاح';
             document.getElementById('mOrigin').textContent = p.origin;
             document.getElementById('mExp').textContent = p.exp;
             document.getElementById('modal').style.display = 'flex';
@@ -624,6 +856,99 @@
         }
 
         function contact() { window.open('https://t.me/kur_med', '_blank'); }
+
+        // Contact Modal Logic
+        function openContactModal() {
+            document.getElementById('contactModal').style.display = 'flex';
+        }
+        function closeContactModal() {
+            document.getElementById('contactModal').style.display = 'none';
+        }
+
+        // Admin Logic
+        function toggleAdmin() {
+            const admin = document.getElementById('adminView');
+            const main = document.getElementById('productsContainer');
+            const search = document.querySelector('.search-container');
+            const cats = document.getElementById('catWrapper');
+            const header = document.querySelector('.market-header');
+
+            if (admin.style.display === 'block') {
+                admin.style.display = 'none';
+                main.style.display = 'grid';
+                search.style.display = 'block';
+                cats.style.display = 'flex';
+                header.style.display = 'block';
+            } else {
+                admin.style.display = 'block';
+                main.style.display = 'none';
+                search.style.display = 'none';
+                cats.style.display = 'none';
+                header.style.display = 'none';
+            }
+        }
+
+        function previewImages(input) {
+            const container = document.getElementById('imagePreview');
+            container.innerHTML = '';
+            if (input.files) {
+                Array.from(input.files).forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.className = 'preview-thumb';
+                        container.appendChild(img);
+                    }
+                    reader.readAsDataURL(file);
+                });
+            }
+        }
+
+        function addNewProduct() {
+            const name = document.getElementById('pName').value;
+            const desc = document.getElementById('pDesc').value;
+            const price = document.getElementById('pPrice').value;
+            const status = document.getElementById('pStatus').value;
+            const fileInput = document.getElementById('pImages');
+
+            // Mock adding (in reality would upload)
+            // For demo, we use placeholder or dataURL if needed, but let's use placeholder for simplicity if no file
+            // or use the first preview src if available
+
+            const imgs = [];
+            const previewContainer = document.getElementById('imagePreview');
+            if (previewContainer.children.length > 0) {
+                Array.from(previewContainer.children).forEach(img => imgs.push(img.src));
+            } else {
+                imgs.push('https://via.placeholder.com/200/1e293b/primary?text=New+Product');
+            }
+
+            const newProduct = {
+                id: Date.now(),
+                name: name || 'منتج جديد',
+                description: desc,
+                price: price || '0',
+                status: status,
+                images: imgs,
+                dateAdded: new Date().toISOString(), // New!
+                cat: 'general',
+                origin: 'محلي',
+                exp: '2026'
+            };
+
+            products.unshift(newProduct);
+            alert('تم إضافة المنتج بنجاح');
+            toggleAdmin(); // Go back to main view
+            renderProducts(products); // Re-render
+
+            // Clear form
+            document.getElementById('pName').value = '';
+            document.getElementById('pDesc').value = '';
+            document.getElementById('pPrice').value = '';
+            document.getElementById('imagePreview').innerHTML = '';
+            fileInput.value = '';
+        }
 
         init();
     </script>
