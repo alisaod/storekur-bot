@@ -195,11 +195,11 @@
         }
 
         .product-name {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             text-align: center;
-            color: #1a202c;
-            line-height: 1.4;
+            color: #212529;
+            line-height: 1.3;
             max-width: 100%;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -207,6 +207,20 @@
             -webkit-line-clamp: 2;
             line-clamp: 2;
             -webkit-box-orient: vertical;
+            margin-bottom: 3px;
+        }
+
+        .product-expiry {
+            font-size: 10px;
+            color: #6c757d;
+            text-align: center;
+            margin-top: 2px;
+        }
+
+        .product-country {
+            font-size: 16px;
+            text-align: center;
+            margin-top: 3px;
         }
 
         .new-badge {
@@ -357,11 +371,34 @@
         }
 
         .product-title {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
-            color: #1a202c;
-            margin-bottom: 12px;
+            color: #212529;
+            margin-bottom: 10px;
             letter-spacing: 0.3px;
+        }
+
+        .product-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .product-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: #495057;
+        }
+
+        .product-meta-label {
+            font-weight: 600;
+            color: #6c757d;
         }
 
         .product-price {
@@ -613,11 +650,7 @@
             <span class="icon">🩺</span>
             <span class="label">الأدوية</span>
         </button>
-        <button class="category-btn" data-category="supplies">
-            <span class="icon">🧴</span>
-            <span class="label">المستلزمات</span>
-        </button>
-        <button class="category-btn active" data-category="general">
+        <button class="category-btn" data-category="general">
             <span class="icon">🏠</span>
             <span class="label">العامة</span>
         </button>
@@ -734,7 +767,9 @@
                 description: "حليب أطفال عالي الجودة، غني بالفيتامينات والمعادن الضرورية لنمو طفلك الصحي",
                 images: ["https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=400", "https://images.unsplash.com/photo-1563360031-6c0a8e4b4a8e?w=400"],
                 isNew: true,
-                addedDate: new Date().toISOString()
+                addedDate: new Date().toISOString(),
+                expiryDate: "2027-06-15",
+                country: "🇩🇪"
             },
             {
                 id: 2,
@@ -744,17 +779,21 @@
                 description: "مكمل غذائي يحتوي على فيتامين D3 لتقوية العظام والأسنان",
                 images: ["https://images.unsplash.com/photo-1550572017-4814c5c3f8ae?w=400"],
                 isNew: false,
-                addedDate: "2026-01-01T00:00:00.000Z"
+                addedDate: "2026-01-01T00:00:00.000Z",
+                expiryDate: "2026-12-31",
+                country: "🇺🇸"
             },
             {
                 id: 3,
                 name: "شامبو أطفال جونسون",
                 price: 12000,
-                category: "supplies",
+                category: "general",
                 description: "شامبو لطيف على بشرة الأطفال الحساسة، خالي من المواد الضارة",
                 images: ["https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=400"],
                 isNew: false,
-                addedDate: "2025-12-28T00:00:00.000Z"
+                addedDate: "2025-12-28T00:00:00.000Z",
+                expiryDate: "2027-03-20",
+                country: "🇬🇧"
             },
             {
                 id: 4,
@@ -764,7 +803,9 @@
                 description: "دواء آمن وفعال لخفض حرارة الأطفال، بنكهة الفراولة",
                 images: ["https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400"],
                 isNew: false,
-                addedDate: "2025-12-25T00:00:00.000Z"
+                addedDate: "2025-12-25T00:00:00.000Z",
+                expiryDate: "2026-08-10",
+                country: "🇫🇷"
             },
             {
                 id: 5,
@@ -774,17 +815,21 @@
                 description: "عبوة كبيرة من حفاضات بامبرز بسعر مخفض، توفر راحة وحماية طوال اليوم",
                 images: ["https://images.unsplash.com/photo-1519689373023-dd07c7988603?w=400"],
                 isNew: true,
-                addedDate: new Date().toISOString()
+                addedDate: new Date().toISOString(),
+                expiryDate: "2028-01-15",
+                country: "🇯🇵"
             },
             {
                 id: 6,
                 name: "بودرة أطفال",
                 price: 9000,
-                category: "supplies",
+                category: "general",
                 description: "بودرة ناعمة تحافظ على بشرة طفلك جافة ومنتعشة",
                 images: ["https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400"],
                 isNew: false,
-                addedDate: "2025-12-20T00:00:00.000Z"
+                addedDate: "2025-12-20T00:00:00.000Z",
+                expiryDate: "2027-05-30",
+                country: "🇮🇹"
             },
             {
                 id: 7,
@@ -794,7 +839,9 @@
                 description: "غذاء الأطفال المدعم بالحديد والفيتامينات، مناسب من 6 أشهر",
                 images: ["https://images.unsplash.com/photo-1599599810769-bcde5a160d32?w=400"],
                 isNew: true,
-                addedDate: new Date().toISOString()
+                addedDate: new Date().toISOString(),
+                expiryDate: "2026-11-25",
+                country: "🇨🇭"
             },
             {
                 id: 8,
@@ -804,7 +851,9 @@
                 description: "مكمل غذائي غني بأحماض أوميغا 3 لدعم نمو الدماغ",
                 images: ["https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=400"],
                 isNew: false,
-                addedDate: "2025-12-15T00:00:00.000Z"
+                addedDate: "2025-12-15T00:00:00.000Z",
+                expiryDate: "2027-02-28",
+                country: "🇳🇴"
             },
             {
                 id: 9,
@@ -814,11 +863,13 @@
                 description: "كريم طبي لعلاج والوقاية من طفح الحفاض",
                 images: ["https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400"],
                 isNew: false,
-                addedDate: "2025-12-10T00:00:00.000Z"
+                addedDate: "2025-12-10T00:00:00.000Z",
+                expiryDate: "2026-09-18",
+                country: "🇩🇪"
             }
         ];
 
-        let currentCategory = 'general';
+        let currentCategory = 'all';
         let currentSlideIndex = 0;
         let currentProduct = null;
 
@@ -859,6 +910,8 @@
                         <img src="${product.images[0]}" alt="${product.name}" class="product-image">
                     </div>
                     <div class="product-name">${product.name}</div>
+                    <div class="product-expiry">📅 ${product.expiryDate || 'غير محدد'}</div>
+                    <div class="product-country">${product.country || '🌍'}</div>
                 `;
 
                 grid.appendChild(card);
@@ -867,6 +920,9 @@
 
         // فلترة المنتجات حسب القسم
         function filterProductsByCategory(category) {
+            if (category === 'all') {
+                return products;
+            }
             if (category === 'new') {
                 return products.filter(p => checkIfNew(p.addedDate));
             }
@@ -927,7 +983,23 @@
 
             document.getElementById('modalTitle').textContent = 'تفاصيل المنتج';
             document.getElementById('productTitle').textContent = product.name;
+
+            // إضافة معلومات المنتج
+            const metaHtml = `
+                <div class="product-meta">
+                    <div class="product-meta-item">
+                        <span class="product-meta-label">تاريخ الصلاحية:</span>
+                        <span>📅 ${product.expiryDate || 'غير محدد'}</span>
+                    </div>
+                    <div class="product-meta-item">
+                        <span class="product-meta-label">بلد المنشأ:</span>
+                        <span>${product.country || '🌍'}</span>
+                    </div>
+                </div>
+            `;
+
             document.getElementById('productPrice').textContent = `${product.price.toLocaleString()} د.ع`;
+            document.getElementById('productPrice').insertAdjacentHTML('afterend', metaHtml);
             document.getElementById('productDescription').textContent = product.description;
 
             // إعداد السلايدر
