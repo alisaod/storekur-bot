@@ -145,32 +145,72 @@
         }
 
         .cat-item {
-            padding: 8px 16px;
+            padding: 12px 10px;
             background: rgba(30, 41, 59, 0.5);
             border: 1px solid #334155;
-            border-radius: 20px;
+            border-radius: 16px;
             color: var(--text-sub);
-            font-size: 13px;
+            font-size: 11px;
             cursor: pointer;
-            white-space: nowrap;
+            width: 80px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
             transition: 0.3s;
+        }
+
+        .cat-icon-box {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
         }
 
         .cat-icon {
-            width: 18px;
-            height: 18px;
+            width: 24px;
+            height: 24px;
             fill: currentColor;
-            opacity: 0.8;
+            opacity: 1;
+        }
+
+        .cat-item.active .cat-icon-box {
+            background: rgba(34, 211, 238, 0.2);
+            box-shadow: 0 0 10px rgba(34, 211, 238, 0.2);
         }
 
         .cat-item.active {
-            background: rgba(34, 211, 238, 0.15);
             border-color: var(--primary);
             color: var(--primary);
-            box-shadow: 0 0 10px rgba(34, 211, 238, 0.1);
+        }
+
+        /* Section Headers for Stacked Layout */
+        .section-header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .section-more {
+            font-size: 12px;
+            color: var(--primary);
+            cursor: pointer;
         }
 
         /* Products Grid */
@@ -400,70 +440,26 @@
     <script>
         // Data
         const categories = [
-            {
-                id: 'vitamins',
-                name: 'فيتامينات',
-                icon: '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-1.07 3.97-2.9 5.08z"/>'
-            },
-            {
-                id: 'supplements',
-                name: 'مكملات',
-                icon: '<path d="M7 2v11h3v9l7-12h-4l4-8z"/>'
-            },
-            {
-                id: 'medicines',
-                name: 'أدوية',
-                icon: '<path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14h-2v-4H6v-2h4V7h2v4h4v2h-4v4z"/>'
-            },
-            {
-                id: 'supplies',
-                name: 'مستلزمات',
-                icon: '<path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm0 15l-5-5h3V9h4v4h3l-5 5z"/>'
-            }
+            { id: 'new', name: 'حديثاً', color: '#f59e0b', icon: '<path d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.69L1 12l2.44 2.79-.34 3.69 3.61.82L8.6 22.5l3.4-1.47 3.4 1.46 1.89-3.19 3.61-.82-.34-3.69L23 12zm-12.91 4.72l-3.8-3.81 1.48-1.48 2.32 2.33 5.85-5.87 1.48 1.48-7.33 7.35z"/>' },
+            { id: 'offers', name: 'عروض', color: '#f43f5e', icon: '<path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/>' },
+            { id: 'supplements', name: 'مكملات', color: '#8b5cf6', icon: '<path d="M7 2v11h3v9l7-12h-4l4-8z"/>' },
+            { id: 'medicines', name: 'أدوية', color: '#3b82f6', icon: '<path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14h-2v-4H6v-2h4V7h2v4h4v2h-4v4z"/>' },
+            { id: 'supplies', name: 'مستلزمات', color: '#10b981', icon: '<path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm0 15l-5-5h3V9h4v4h3l-5 5z"/>' },
+            { id: 'general', name: 'عامة', color: '#6b7280', icon: '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>' }
         ];
 
         const products = [
-            {
-                id: 1,
-                name: 'فيتامين C فوار (Immune)',
-                origin: 'المانيا 🇩🇪',
-                exp: '2026/05',
-                cat: 'vitamins',
-                img: 'https://via.placeholder.com/200/1e293b/22d3ee?text=Vit+C'
-            },
-            {
-                id: 2,
-                name: 'أوميغا 3 بلس (Omega)',
-                origin: 'أمريكا 🇺🇸',
-                exp: '2025/12',
-                cat: 'supplements',
-                img: 'https://via.placeholder.com/200/1e293b/f472b6?text=Omega'
-            },
-            {
-                id: 3,
-                name: 'بنادول إكسترا (Panadol)',
-                origin: 'إيرلندا 🇮🇪',
-                exp: '2027/01',
-                cat: 'medicines',
-                img: 'https://via.placeholder.com/200/1e293b/a855f7?text=Panadol'
-            },
-            {
-                id: 4,
-                name: 'شرائط قياس سكر',
-                origin: 'كوريا 🇰🇷',
-                exp: '2025/08',
-                cat: 'supplies',
-                img: 'https://via.placeholder.com/200/1e293b/34d399?text=Test'
-            },
-            {
-                id: 5,
-                name: 'سيروم فيتامين E',
-                origin: 'فرنسا 🇫🇷',
-                exp: '2026/02',
-                cat: 'vitamins',
-                img: 'https://via.placeholder.com/200/1e293b/fbbf24?text=Vit+E'
-            }
+            { id: 1, name: 'فيتامين C فوار (Immune)', origin: 'المانيا 🇩🇪', exp: '2026/05', cat: 'supplements', isNew: true, img: 'https://via.placeholder.com/200/1e293b/22d3ee?text=Vit+C' },
+            { id: 2, name: 'أوميغا 3 بلس (Omega)', origin: 'أمريكا 🇺🇸', exp: '2025/12', cat: 'supplements', isOffer: true, oldPrice: '25,000', price: '20,000', img: 'https://via.placeholder.com/200/1e293b/f472b6?text=Omega' },
+            { id: 3, name: 'بنادول إكسترا (Panadol)', origin: 'إيرلندا 🇮🇪', exp: '2027/01', cat: 'medicines', isNew: true, img: 'https://via.placeholder.com/200/1e293b/a855f7?text=Panadol' },
+            { id: 4, name: 'شرائط قياس سكر', origin: 'كوريا 🇰🇷', exp: '2025/08', cat: 'supplies', isOffer: true, img: 'https://via.placeholder.com/200/1e293b/34d399?text=Test' },
+            { id: 5, name: 'سيروم فيتامين E', origin: 'فرنسا 🇫🇷', exp: '2026/02', cat: 'general', img: 'https://via.placeholder.com/200/1e293b/fbbf24?text=Vit+E' },
+            { id: 6, name: 'كولاجين بلس', origin: 'اليابان 🇯🇵', exp: '2026/09', cat: 'supplements', isNew: true, img: 'https://via.placeholder.com/200/1e293b/e879f9?text=Collagen' },
+            { id: 7, name: 'جهاز ضغط رقمي', origin: 'ألمانيا 🇩🇪', exp: '2030', cat: 'supplies', isOffer: true, img: 'https://via.placeholder.com/200/1e293b/60a5fa?text=Pressure' },
+            { id: 8, name: 'مرطب شفاه', origin: 'الامارات 🇦🇪', exp: '2025/12', cat: 'general', img: 'https://via.placeholder.com/200/1e293b/fca5a5?text=LipBalm' },
+            { id: 9, name: 'اسبرين 81', origin: 'أمريكا 🇺🇸', exp: '2026/04', cat: 'medicines', img: 'https://via.placeholder.com/200/1e293b/93c5fd?text=Aspirin' }
         ];
+
 
         const container = document.getElementById('productsContainer');
         let currentFilter = 'all';
@@ -474,9 +470,11 @@
             categories.forEach(c => {
                 const btn = document.createElement('div');
                 btn.className = 'cat-item';
-                // Using SVG icon + Name
+                // Colorful Icon Box + Label Below
                 btn.innerHTML = `
-                    <svg class="cat-icon" viewBox="0 0 24 24">${c.icon}</svg>
+                    <div class="cat-icon-box" style="color: ${c.color}">
+                        <svg class="cat-icon" viewBox="0 0 24 24">${c.icon}</svg>
+                    </div>
                     <span>${c.name}</span>
                 `;
                 btn.onclick = () => filterCat(c.id, btn);
@@ -485,32 +483,91 @@
             renderProducts(products);
         }
 
-        function renderProducts(list) {
+        function renderProducts(list, isSearch = false) {
             container.innerHTML = '';
-            list.forEach((p, index) => {
-                const card = document.createElement('div');
-                card.className = 'product-card';
-                card.style.animationDelay = (index * 0.05) + 's';
-                card.onclick = () => openModal(p);
 
-                card.innerHTML = `
-                    <div class="expiry-tag">📅 ${p.exp}</div>
-                    <div class="img-container">
-                        <img src="${p.img}" class="product-img" loading="lazy">
-                    </div>
-                    <div class="p-info">
-                        <div class="p-name">${p.name}</div>
-                        <div class="p-meta">
-                            <span class="origin-text">${p.origin}</span>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-
-            if (list.length === 0) {
-                container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:30px; color:#64748b;">لا توجد نتائج مطابقة</div>`;
+            // If we are searching or in a specific category, render plain grid
+            if (isSearch || currentFilter !== 'all') {
+                renderGrid(list);
+                if (list.length === 0) noResults();
+                return;
             }
+
+            // Otherwise, render Stacked Sections
+            // 1. New Arrivals
+            const newItems = products.filter(p => p.isNew);
+            if (newItems.length) renderSection('حديثاً', newItems);
+
+            // 2. Offers
+            const offerItems = products.filter(p => p.isOffer);
+            if (offerItems.length) renderSection('عروض وتخفيضات', offerItems, true);
+
+            // 3. Supplements (Example of specific category section)
+            const suppItems = products.filter(p => p.cat === 'supplements');
+            if (suppItems.length) renderSection('مكملات غذائية', suppItems);
+
+            // 4. Medicines
+            const medItems = products.filter(p => p.cat === 'medicines');
+            if (medItems.length) renderSection('أدوية طبية', medItems);
+
+            // 5. General / Remaining (just minimal example)
+            const otherItems = products.filter(p => !p.isNew && !p.isOffer && p.cat !== 'supplements' && p.cat !== 'medicines');
+            if (otherItems.length) renderSection('منتجات أخرى', otherItems);
+        }
+
+        function renderSection(title, items, isHorizontal = false) {
+            // Header
+            const header = document.createElement('div');
+            header.className = 'section-header';
+            header.innerHTML = `<div class="section-title">${title}</div><div class="section-more">عرض الكل</div>`;
+            container.appendChild(header);
+
+            // Grid wrapper
+            const grid = document.createElement('div');
+            // We reuse the existing grid class but reset margins for nesting
+            grid.style.display = 'grid';
+            grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(160px, 1fr))';
+            grid.style.gap = '15px';
+            grid.style.gridColumn = '1 / -1'; // span full width
+            grid.style.width = '100%';
+
+            items.forEach((p, index) => {
+                grid.appendChild(createCard(p, index));
+            });
+            container.appendChild(grid);
+        }
+
+        function renderGrid(list) {
+            list.forEach((p, index) => {
+                container.appendChild(createCard(p, index));
+            });
+        }
+
+        function createCard(p, index) {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            if (index < 10) card.style.animationDelay = (index * 0.05) + 's';
+            card.onclick = () => openModal(p);
+
+            card.innerHTML = `
+                <div class="expiry-tag">📅 ${p.exp}</div>
+                ${p.isOffer ? '<div style="position:absolute; top:8px; right:8px; background:#f43f5e; color:#fff; font-size:10px; padding:3px 8px; border-radius:8px; z-index:2;">عرض</div>' : ''}
+                <div class="img-container">
+                    <img src="${p.img}" class="product-img" loading="lazy">
+                </div>
+                <div class="p-info">
+                    <div class="p-name">${p.name}</div>
+                    <div class="p-meta">
+                        <span class="origin-text">${p.origin}</span>
+                        ${p.oldPrice ? `<span style="text-decoration:line-through; opacity:0.6; margin-right:auto; font-size:11px;">${p.oldPrice}</span> <span style="color:var(--primary); font-weight:bold;">${p.price}</span>` : ''}
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        function noResults() {
+            container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:30px; color:#64748b;">لا توجد نتائج مطابقة</div>`;
         }
 
         function filterCat(catId, btn) {
@@ -526,18 +583,23 @@
                 filterSearch(searchVal);
             } else {
                 currentFilter = 'all'; // De-select returns to All
-                renderProducts(products);
+                const searchVal = document.querySelector('.search-input').value;
+                filterSearch(searchVal);
             }
         }
 
         function filterSearch(query) {
             const term = normalizeText(query);
             const filtered = products.filter(p => {
-                const matchesCat = currentFilter === 'all' || p.cat === currentFilter;
+                const matchesCat = currentFilter === 'all' ||
+                    (currentFilter === 'new' ? p.isNew :
+                        (currentFilter === 'offers' ? p.isOffer :
+                            p.cat === currentFilter));
+
                 const matchesSearch = normalizeText(p.name).includes(term);
                 return matchesCat && matchesSearch;
             });
-            renderProducts(filtered);
+            renderProducts(filtered, true); // true = isSearch mode (renders grid)
         }
 
         // Normalization helper for Arabic text
