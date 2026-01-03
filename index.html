@@ -13,9 +13,7 @@
             --bg-main: #121212;
             --bg-card: #1e1e1e;
             --primary: #00b894;
-            /* Vivid Green */
             --accent: #fdcb6e;
-            /* Soft Gold */
             --text-main: #ffffff;
             --text-sub: #b2bec3;
             --glass: rgba(30, 30, 30, 0.8);
@@ -52,80 +50,118 @@
             }
         }
 
-        @keyframes shimmer {
-            0% {
-                background-position: -200% 0;
-            }
+        @keyframes bounce {
 
+            0%,
             100% {
-                background-position: 200% 0;
-            }
-        }
-
-        @keyframes float {
-            0% {
                 transform: translateY(0);
             }
 
             50% {
-                transform: translateY(-8px);
-            }
-
-            100% {
-                transform: translateY(0);
+                transform: translateY(-5px);
             }
         }
 
-        @keyframes glowPulse {
+        @keyframes pulse-glow {
             0% {
-                box-shadow: 0 0 5px rgba(0, 184, 148, 0.2);
+                box-shadow: 0 0 5px var(--primary);
             }
 
             50% {
-                box-shadow: 0 0 20px rgba(0, 184, 148, 0.6);
+                box-shadow: 0 0 15px var(--primary);
             }
 
             100% {
-                box-shadow: 0 0 5px rgba(0, 184, 148, 0.2);
+                box-shadow: 0 0 5px var(--primary);
             }
         }
 
         /* Header */
         .market-header {
             text-align: center;
-            padding: 40px 20px;
-            background: radial-gradient(circle at center, #2d3436 0%, #121212 70%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .market-header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            padding: 30px 20px 20px;
+            background: radial-gradient(circle at center, #2d3436 0%, #121212 90%);
         }
 
         .title {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 800;
             background: linear-gradient(to bottom, #fff, #b2bec3);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 5px;
-            animation: fadeIn 0.8s ease-out;
             letter-spacing: 1px;
         }
 
         .subtitle {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--primary);
             font-weight: 500;
             opacity: 0.8;
-            animation: fadeIn 1s ease-out;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Categories Bar */
+        .categories-wrapper {
+            padding: 10px 20px;
+            position: sticky;
+            top: 0;
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .categories-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .cat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 70px;
+            padding: 10px 5px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cat-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5));
+        }
+
+        .cat-name {
+            font-size: 11px;
+            color: var(--text-sub);
+            font-weight: 500;
+        }
+
+        .cat-item.active {
+            background: rgba(0, 184, 148, 0.15);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(0, 184, 148, 0.2);
+        }
+
+        .cat-item.active .cat-icon {
+            transform: scale(1.2) translateY(-3px);
+            animation: bounce 1.5s infinite;
+        }
+
+        .cat-item.active .cat-name {
+            color: #fff;
+            font-weight: 700;
         }
 
         /* Products Grid */
@@ -133,7 +169,7 @@
             padding: 20px;
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 20px;
+            gap: 15px;
             max-width: 800px;
             margin: 0 auto;
         }
@@ -141,7 +177,7 @@
         .product-card {
             background: var(--bg-card);
             border-radius: 20px;
-            padding: 15px;
+            padding: 12px;
             position: relative;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -151,29 +187,19 @@
         }
 
         .product-card:hover {
-            transform: translateY(-10px) scale(1.02);
+            transform: translateY(-8px);
             border-color: var(--primary);
             box-shadow: var(--glow);
         }
 
-        .product-card:nth-child(even) {
-            animation-delay: 0.1s;
-        }
-
-        .product-card:nth-child(odd) {
-            animation-delay: 0.2s;
-        }
-
-        /* Product Image with Glossy Effect */
         .img-container {
             width: 100%;
             aspect-ratio: 1/1;
             background: #2a2a2a;
             border-radius: 15px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             overflow: hidden;
             position: relative;
-            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
         }
 
         .product-img {
@@ -183,135 +209,116 @@
             transition: transform 0.5s ease;
         }
 
-        .product-card:hover .product-img {
-            transform: scale(1.1);
+        /* Product Details */
+        .p-info {
+            padding: 0 5px;
         }
 
-        /* Info */
         .p-name {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             color: #fff;
-            margin-bottom: 6px;
-            white-space: nowrap;
+            margin-bottom: 4px;
             overflow: hidden;
+            white-space: nowrap;
             text-overflow: ellipsis;
         }
 
-        .p-origin {
-            font-size: 11px;
-            color: var(--text-sub);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            margin-bottom: 8px;
-        }
-
-        .flag-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--primary);
-            border-radius: 50%;
-            box-shadow: 0 0 5px var(--primary);
+        .p-cat-tag {
+            font-size: 10px;
+            color: var(--primary);
+            background: rgba(0, 184, 148, 0.1);
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 6px;
         }
 
         .p-price {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 800;
             color: var(--accent);
-            text-shadow: 0 0 10px rgba(253, 203, 110, 0.3);
+            display: block;
+            margin-top: 4px;
         }
 
-        /* Modal Overlay */
+        /* Modal */
         .modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
-            z-index: 9999;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
             display: none;
-            justify-content: center;
             align-items: center;
-            padding: 20px;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .modal.visible {
+            opacity: 1;
         }
 
         .modal-content {
-            background: linear-gradient(145deg, #1e1e1e, #252525);
-            width: 100%;
+            background: #252525;
+            padding: 25px;
+            width: 85%;
             max-width: 350px;
             border-radius: 25px;
-            padding: 30px;
             position: relative;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            animation: float 6s ease-in-out infinite, fadeIn 0.3s ease;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .modal-img {
-            width: 160px;
-            height: 160px;
+        .modal.visible .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-img-large {
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            border: 4px solid var(--primary);
+            border: 3px solid var(--primary);
+            margin: 0 auto 15px;
             display: block;
-            margin: -80px auto 20px;
-            /* Pop out effect */
-            background: #1e1e1e;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            object-fit: cover;
+            box-shadow: 0 0 20px rgba(0, 184, 148, 0.2);
         }
 
-        .info-row {
+        .modal-details div {
+            margin-bottom: 8px;
+            font-size: 14px;
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 14px;
+            padding-bottom: 8px;
         }
 
-        .info-label {
+        .modal-details span.label {
             color: var(--text-sub);
         }
 
-        .info-val {
+        .modal-details span.val {
             color: #fff;
-            font-weight: 700;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            color: #fff;
-            font-size: 24px;
-            cursor: pointer;
-            opacity: 0.5;
-            transition: 0.3s;
-        }
-
-        .close-modal:hover {
-            opacity: 1;
-            transform: rotate(90deg);
+            font-weight: 600;
         }
 
         .order-btn {
-            background: linear-gradient(90deg, var(--primary), #00cec9);
+            background: var(--primary);
+            color: #fff;
             width: 100%;
-            padding: 15px;
+            padding: 14px;
             border: none;
             border-radius: 12px;
-            color: #fff;
-            font-weight: 800;
             font-size: 16px;
-            margin-top: 20px;
+            font-weight: 700;
+            margin-top: 15px;
             cursor: pointer;
-            box-shadow: 0 5px 20px rgba(0, 184, 148, 0.4);
-            transition: 0.3s;
-        }
-
-        .order-btn:hover {
-            transform: scale(1.05);
         }
     </style>
 </head>
@@ -320,126 +327,190 @@
 
     <header class="market-header">
         <h1 class="title">سوق كوردستان الروائي</h1>
-        <div class="subtitle">الجودة • الفخامة • الأصالة</div>
+        <div class="subtitle">فخامة • تنوع • جودة</div>
     </header>
 
-    <div id="productsContainer" class="products-container">
-        <!-- Products generated by JS -->
+    <!-- Categories Strip -->
+    <div class="categories-wrapper" id="catWrapper">
+        <div class="cat-item active" onclick="filterBy('all', this)">
+            <div class="cat-icon">🌟</div>
+            <div class="cat-name">الكل</div>
+        </div>
+        <!-- Dynamic Categories Here -->
     </div>
 
-    <!-- Product Details Modal -->
+    <!-- Products Grid -->
+    <div id="productsContainer" class="products-container">
+        <!-- Products Here -->
+    </div>
+
+    <!-- Modal -->
     <div id="modal" class="modal" onclick="if(event.target===this) closeModal()">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">✕</span>
-            <img id="mImg" src="" class="modal-img">
-            <h2 id="mName" style="text-align: center; margin-bottom: 10px; color: var(--primary);"></h2>
-
-            <div class="info-row">
-                <span class="info-label">المنشأ:</span>
-                <span id="mOrigin" class="info-val"></span>
+            <span style="position:absolute; left:15px; top:15px; color:#fff; font-size:20px; cursor:pointer;"
+                onclick="closeModal()">✕</span>
+            <img id="mImg" src="" class="modal-img-large">
+            <h2 id="mName" style="text-align:center; color:#fff; margin-bottom:15px;"></h2>
+            <div class="modal-details">
+                <div><span class="label">المنشأ</span><span class="val" id="mOrigin"></span></div>
+                <div><span class="label">التعبئة</span><span class="val" id="mPack"></span></div>
+                <div><span class="label">التصنيف</span><span class="val" id="mCat"></span></div>
+                <div style="border:none; margin-top:10px;"><span class="label">السعر</span><span class="val"
+                        style="color:var(--accent); font-size:18px;" id="mPrice"></span></div>
             </div>
-
-            <div class="info-row">
-                <span class="info-label">التعبئة:</span>
-                <span id="mPack" class="info-val"></span>
-            </div>
-
-            <div class="info-row" style="border:none; padding-top:15px; justify-content:center;">
-                <span id="mPrice" style="font-size: 24px; color: var(--accent); font-weight:800;"></span>
-            </div>
-
-            <button class="order-btn" onclick="contact()">طلب المنتج عبر تليجرام</button>
+            <button class="order-btn" onclick="contact()">طلب عبر تليجرام</button>
         </div>
     </div>
 
     <script>
-        // --------- ⚠️ منطقة البيانات (يتم تحديثها من ملف الادمن) ---------
+        // ------------------ DATA AREA ------------------
+
+        // 1. Categories
+        const categories = [
+            { id: 'coffee', name: 'قهوة', icon: '☕' },
+            { id: 'honey', name: 'عسل', icon: '🍯' },
+            { id: 'nuts', name: 'مكسرات', icon: '🥜' },
+            { id: 'sweets', name: 'حلويات', icon: '🍬' },
+            { id: 'drinks', name: 'مشروبات', icon: '🥤' }
+        ];
+
+        // 2. Products
         const products = [
             {
                 id: 1,
                 name: 'قهوة عثمانية فاخرة',
                 origin: 'تركيا',
-                pack: 'علبة معدنية 250غ',
+                pack: '250غ',
                 price: '15,000 د.ع',
+                cat: 'coffee',
                 img: 'https://via.placeholder.com/200/2d3436/00b894?text=Coffee'
             },
             {
                 id: 2,
                 name: 'عسل جبلي طبيعي',
                 origin: 'كوردستان',
-                pack: 'برطمان زجاج 1كغ',
+                pack: '1كغ',
                 price: '45,000 د.ع',
+                cat: 'honey',
                 img: 'https://via.placeholder.com/200/2d3436/fdcb6e?text=Honey'
             },
             {
                 id: 3,
-                name: 'شاي سيلاني أصلي',
-                origin: 'سريلانكا',
-                pack: 'باكيت 500غ',
-                price: '8,000 د.ع',
-                img: 'https://via.placeholder.com/200/2d3436/ff7675?text=Tea'
+                name: 'فستق حلبي',
+                origin: 'سوريا',
+                pack: '500غ',
+                price: '22,000 د.ع',
+                cat: 'nuts',
+                img: 'https://via.placeholder.com/200/2d3436/74b9ff?text=Nuts'
             },
             {
                 id: 4,
-                name: 'مكسرات مشكلة',
-                origin: 'محلي',
-                pack: 'كيس فاخر 500غ',
-                price: '12,000 د.ع',
-                img: 'https://via.placeholder.com/200/2d3436/74b9ff?text=Nuts'
+                name: 'عصير رمان طبيعي',
+                origin: 'كوردستان',
+                pack: '1 لتر',
+                price: '6,000 د.ع',
+                cat: 'drinks',
+                img: 'https://via.placeholder.com/200/2d3436/ff7675?text=Juice'
             }
         ];
-        // ---------------------------------------------------------------
 
-        // Load saved products if any (Simulation for static page via localStorage if needed for demo)
-        // In production static site, developer updates the 'products' array above.
+        // ----------------------------------------------
 
+        const container = document.getElementById('productsContainer');
+        const catWrapper = document.getElementById('catWrapper');
+
+        // Init
         function init() {
-            const container = document.getElementById('productsContainer');
+            renderCategories();
+            renderProducts('all');
+        }
+
+        // Render Categories
+        function renderCategories() {
+            categories.forEach(c => {
+                const el = document.createElement('div');
+                el.className = 'cat-item';
+                el.onclick = () => filterBy(c.id, el);
+                el.innerHTML = `
+                    <div class="cat-icon">${c.icon}</div>
+                    <div class="cat-name">${c.name}</div>
+                `;
+                catWrapper.appendChild(el);
+            });
+        }
+
+        // Render Products
+        function renderProducts(filterCat) {
             container.innerHTML = '';
 
-            products.forEach(p => {
+            const filtered = filterCat === 'all'
+                ? products
+                : products.filter(p => p.cat === filterCat);
+
+            // Animation delay setup
+            filtered.forEach((p, index) => {
                 const card = document.createElement('div');
                 card.className = 'product-card';
+                card.style.animationDelay = (index * 0.05) + 's'; // Staggered animation
                 card.onclick = () => openModal(p);
+
+                // Find Category Name for display
+                const catObj = categories.find(c => c.id === p.cat);
+                const catName = catObj ? catObj.name : 'عام';
 
                 card.innerHTML = `
                     <div class="img-container">
                         <img src="${p.img}" class="product-img" loading="lazy">
                     </div>
-                    <div class="p-name">${p.name}</div>
-                    <div class="p-origin">
-                        <span class="flag-dot"></span>
-                        ${p.origin}
+                    <div class="p-info">
+                        <div class="p-name">${p.name}</div>
+                        <span class="p-cat-tag">${catName}</span>
+                        <div class="p-price">${p.price}</div>
                     </div>
-                    <div class="p-price">${p.price}</div>
                 `;
-
                 container.appendChild(card);
             });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px; color:#555;">لا توجد منتجات في هذا القسم حالياً</div>`;
+            }
+        }
+
+        function filterBy(catId, btn) {
+            // Update active state
+            document.querySelectorAll('.cat-item').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Re-render
+            renderProducts(catId);
         }
 
         function openModal(p) {
+            const modal = document.getElementById('modal');
+            const catObj = categories.find(c => c.id === p.cat);
+
             document.getElementById('mImg').src = p.img;
             document.getElementById('mName').textContent = p.name;
             document.getElementById('mOrigin').textContent = p.origin;
             document.getElementById('mPack').textContent = p.pack;
             document.getElementById('mPrice').textContent = p.price;
+            document.getElementById('mCat').textContent = catObj ? catObj.name : '---';
 
-            const modal = document.getElementById('modal');
             modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('visible'), 10);
         }
 
         function closeModal() {
-            document.getElementById('modal').style.display = 'none';
+            const modal = document.getElementById('modal');
+            modal.classList.remove('visible');
+            setTimeout(() => modal.style.display = 'none', 300);
         }
 
         function contact() {
             window.open('https://t.me/kur_med', '_blank');
         }
 
-        // Initialize
         init();
-
     </script>
 </body>
 
