@@ -15,21 +15,21 @@
 
         body {
             font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            color: #212529;
+            background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+            color: #e8e8e8;
             direction: rtl;
             overflow-x: hidden;
         }
 
         /* الشريط العلوي */
         .header {
-            background: linear-gradient(135deg, #495057 0%, #343a40 100%);
-            color: white;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ffd700;
             padding: 20px;
             text-align: center;
             font-size: 24px;
             font-weight: 800;
-            box-shadow: 0 4px 20px rgba(52, 58, 64, 0.3);
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -42,34 +42,39 @@
             align-items: center;
             gap: 12px;
             padding: 18px;
-            background: linear-gradient(to bottom, #ffffff 0%, #f8fafc 100%);
-            border-bottom: 2px solid #e2e8f0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            background: linear-gradient(to bottom, #1a1a2e 0%, #16213e 100%);
+            border-bottom: 2px solid #ffd700;
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.2);
         }
 
         .search-input {
             flex: 1;
             padding: 14px 20px;
-            border: 2px solid #6c757d;
+            border: 2px solid #ffc107;
             border-radius: 30px;
             font-family: 'Cairo', sans-serif;
             font-size: 15px;
             outline: none;
             transition: all 0.3s;
-            background: white;
-            box-shadow: 0 2px 8px rgba(108, 117, 125, 0.15);
+            background: #0f3460;
+            color: #e8e8e8;
+            box-shadow: 0 2px 8px rgba(255, 193, 7, 0.2);
         }
 
         .search-input:focus {
-            border-color: #495057;
-            box-shadow: 0 0 0 4px rgba(73, 80, 87, 0.15), 0 4px 12px rgba(108, 117, 125, 0.2);
+            border-color: #ffd700;
+            box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.2), 0 4px 12px rgba(255, 193, 7, 0.3);
             transform: translateY(-1px);
+        }
+
+        .search-input::placeholder {
+            color: #a0a0a0;
         }
 
         .contact-icon {
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            background: linear-gradient(135deg, #ffd700 0%, #ffc107 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -77,12 +82,12 @@
             cursor: pointer;
             font-size: 24px;
             transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
         }
 
         .contact-icon:hover {
             transform: scale(1.15) rotate(5deg);
-            box-shadow: 0 6px 20px rgba(73, 80, 87, 0.5);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
         }
 
         /* الأقسام */
@@ -91,10 +96,10 @@
             gap: 12px;
             padding: 18px;
             overflow-x: auto;
-            background: white;
-            border-bottom: 2px solid #e2e8f0;
+            background: #1a1a2e;
+            border-bottom: 2px solid #ffd700;
             scrollbar-width: none;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.15);
         }
 
         .categories::-webkit-scrollbar {
@@ -104,16 +109,16 @@
         .category-btn {
             min-width: 70px;
             padding: 12px;
-            background: white;
-            border: 2px solid #dee2e6;
+            background: #0f3460;
+            border: 2px solid #ffc107;
             border-radius: 15px;
             cursor: pointer;
             font-family: 'Cairo', sans-serif;
             font-size: 11px;
             font-weight: 600;
             transition: all 0.3s;
-            color: #495057;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            color: #ffd700;
+            box-shadow: 0 2px 8px rgba(255, 193, 7, 0.2);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -121,11 +126,11 @@
         }
 
         .category-btn.active {
-            background: linear-gradient(135deg, #495057 0%, #343a40 100%);
-            color: white;
-            border-color: #343a40;
+            background: linear-gradient(135deg, #ffd700 0%, #ffc107 100%);
+            color: #1a1a2e;
+            border-color: #ffd700;
             transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(52, 58, 64, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
         }
 
         .category-btn .icon {
@@ -141,8 +146,8 @@
 
         .category-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 18px rgba(73, 80, 87, 0.25);
-            border-color: #6c757d;
+            box-shadow: 0 6px 18px rgba(255, 215, 0, 0.4);
+            border-color: #ffd700;
         }
 
         /* شبكة المنتجات */
@@ -163,11 +168,13 @@
             transition: all 0.3s;
             padding: 10px;
             border-radius: 15px;
+            background: #16213e;
         }
 
         .product-card:hover {
             transform: translateY(-5px);
-            background: #f8f9fa;
+            background: #1a1a2e;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
         }
 
         .product-image-wrapper {
@@ -184,7 +191,7 @@
         }
 
         .product-card:hover .product-image-wrapper {
-            box-shadow: 0 8px 20px rgba(73, 80, 87, 0.35), 0 0 0 4px rgba(173, 181, 189, 0.15);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5), 0 0 0 4px rgba(255, 193, 7, 0.2);
             transform: scale(1.08) rotate(2deg);
         }
 
@@ -198,7 +205,7 @@
             font-size: 12px;
             font-weight: 600;
             text-align: center;
-            color: #212529;
+            color: #ffd700;
             line-height: 1.3;
             max-width: 100%;
             overflow: hidden;
@@ -212,7 +219,7 @@
 
         .product-expiry {
             font-size: 10px;
-            color: #6c757d;
+            color: #a0a0a0;
             text-align: center;
             margin-top: 2px;
         }
@@ -227,13 +234,13 @@
             position: absolute;
             top: 5px;
             right: 5px;
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            color: white;
+            background: linear-gradient(135deg, #ffd700 0%, #ffc107 100%);
+            color: #1a1a2e;
             padding: 4px 10px;
             border-radius: 12px;
             font-size: 10px;
             font-weight: 700;
-            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.5);
         }
 
         /* النافذة المنبثقة */
@@ -244,7 +251,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.85);
             z-index: 1000;
             align-items: center;
             justify-content: center;
@@ -266,7 +273,7 @@
         }
 
         .modal-content {
-            background: white;
+            background: #16213e;
             border-radius: 20px;
             max-width: 500px;
             width: 90%;
@@ -274,6 +281,7 @@
             overflow-y: auto;
             animation: slideUp 0.3s;
             position: relative;
+            border: 2px solid #ffd700;
         }
 
         @keyframes slideUp {
@@ -291,20 +299,20 @@
         .modal-header {
             position: sticky;
             top: 0;
-            background: linear-gradient(135deg, #495057 0%, #343a40 100%);
-            color: white;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ffd700;
             padding: 18px;
             border-radius: 20px 20px 0 0;
             display: flex;
-            box-shadow: 0 2px 10px rgba(52, 58, 64, 0.3);
+            box-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
             justify-content: space-between;
             align-items: center;
             z-index: 10;
         }
 
         .close-btn {
-            background: white;
-            color: #495057;
+            background: #ffd700;
+            color: #1a1a2e;
             border: none;
             width: 32px;
             height: 32px;
@@ -313,14 +321,14 @@
             font-size: 20px;
             font-weight: 700;
             transition: all 0.3s;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 6px rgba(255, 215, 0, 0.3);
         }
 
         .close-btn:hover {
             transform: rotate(90deg) scale(1.1);
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            color: white;
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+            background: #ffc107;
+            color: #1a1a2e;
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.5);
         }
 
         .image-slider {
@@ -368,12 +376,14 @@
 
         .modal-body {
             padding: 20px;
+            background: #0f3460;
+            color: #e8e8e8;
         }
 
         .product-title {
             font-size: 22px;
             font-weight: 700;
-            color: #212529;
+            color: #ffd700;
             margin-bottom: 10px;
             letter-spacing: 0.3px;
         }
@@ -384,8 +394,9 @@
             gap: 12px;
             margin-bottom: 12px;
             padding: 10px;
-            background: #f8f9fa;
+            background: #1a1a2e;
             border-radius: 10px;
+            border: 1px solid #ffc107;
         }
 
         .product-meta-item {
@@ -393,17 +404,17 @@
             align-items: center;
             gap: 6px;
             font-size: 14px;
-            color: #495057;
+            color: #e8e8e8;
         }
 
         .product-meta-label {
             font-weight: 600;
-            color: #6c757d;
+            color: #ffc107;
         }
 
         .product-price {
             font-size: 22px;
-            background: linear-gradient(135deg, #495057 0%, #343a40 100%);
+            background: linear-gradient(135deg, #ffd700 0%, #ffc107 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -413,7 +424,7 @@
 
         .product-description {
             font-size: 15px;
-            color: #4a5568;
+            color: #c0c0c0;
             line-height: 1.7;
             margin-bottom: 20px;
         }
@@ -421,8 +432,8 @@
         .contact-btn {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(135deg, #495057 0%, #343a40 100%);
-            color: white;
+            background: linear-gradient(135deg, #ffd700 0%, #ffc107 100%);
+            color: #1a1a2e;
             border: none;
             border-radius: 30px;
             font-family: 'Cairo', sans-serif;
@@ -430,14 +441,14 @@
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 6px 15px rgba(52, 58, 64, 0.3);
+            box-shadow: 0 6px 15px rgba(255, 215, 0, 0.4);
             letter-spacing: 0.5px;
         }
 
         .contact-btn:hover {
-            background: linear-gradient(135deg, #343a40 0%, #212529 100%);
+            background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(52, 58, 64, 0.4);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
         }
 
         /* نافذة جهات الاتصال */
@@ -448,15 +459,15 @@
         .contact-info {
             margin-bottom: 15px;
             padding: 16px;
-            background: linear-gradient(to left, #f8f9fa 0%, #ffffff 100%);
+            background: linear-gradient(to left, #1a1a2e 0%, #16213e 100%);
             border-radius: 12px;
-            border-right: 4px solid #6c757d;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            border-right: 4px solid #ffd700;
+            box-shadow: 0 2px 6px rgba(255, 215, 0, 0.15);
         }
 
         .contact-label {
             font-size: 13px;
-            color: #64748b;
+            color: #ffc107;
             margin-bottom: 6px;
             font-weight: 500;
         }
@@ -464,7 +475,7 @@
         .contact-value {
             font-size: 16px;
             font-weight: 700;
-            color: #1a202c;
+            color: #ffd700;
             direction: ltr;
             text-align: right;
         }
